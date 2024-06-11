@@ -11,12 +11,14 @@ namespace MSuhininTestovoe.B2B
     public class EnemyAtackSystem : IEcsInitSystem, IEcsRunSystem, IDisposable
     {
         private List<IDisposable> _disposables = new List<IDisposable>();
-        private EcsFilter filterTrigger;
+        private EcsFilter filterTrigger, filterPlayer;
         private EcsWorld _world;
         private bool _reachedToPlayer = false;
         private EcsPool<AIPathComponent> _isReachedComponentPool;
         private EcsPool<HealthViewComponent> _playerHealthViewComponentPool;
         private EcsPool<AIDestanationComponent> _aiDestanationComponenPool;
+        private EcsPool<TransformComponent> _playerTransformPool;
+        
         private PlayerSharedData _sharedData;
 
         public bool ReachedToPlayer
@@ -29,7 +31,14 @@ namespace MSuhininTestovoe.B2B
         {
             _world = systems.GetWorld();
             _sharedData = systems.GetShared<SharedData>().GetPlayerSharedData;
-          
+
+
+            filterPlayer = systems.GetWorld()
+                .Filter<IsPlayerComponent>()
+                .Inc<HealthViewComponent>()
+                .End();
+            
+            
             filterTrigger = systems.GetWorld()
                 .Filter<AIPathComponent>()
                 .Inc<AIDestanationComponent>()
@@ -38,40 +47,52 @@ namespace MSuhininTestovoe.B2B
             _playerHealthViewComponentPool = _world.GetPool<HealthViewComponent>();
             _isReachedComponentPool = _world.GetPool<AIPathComponent>();
             _aiDestanationComponenPool = _world.GetPool<AIDestanationComponent>();
+            _playerTransformPool = _world.GetPool<TransformComponent>();
 
-            Observable.Interval(TimeSpan.FromMilliseconds(3000)).Where(_ => ReachedToPlayer)
+            Observable.Timer(TimeSpan.FromMilliseconds(3000)).Where(_ => ReachedToPlayer)
                 .Subscribe(x => { Attack(); })
                 .AddTo(_disposables);
         }
 
         public void Run(IEcsSystems systems)
         {
-            foreach (var entity in filterTrigger)
+            foreach (var playerEntity in filterPlayer)
             {
-                ref AIPathComponent canAtack = ref _isReachedComponentPool.Get(entity);
-                _reachedToPlayer = canAtack.AIPath.reachedEndOfPath;
-                ref AIDestanationComponent target = ref _aiDestanationComponenPool.Get(entity);
-                var playerEntitty = target.AIDestinationSetter.target.gameObject.GetComponent<PlayerActor>().Entity;
-                ref HealthViewComponent healthView = ref _playerHealthViewComponentPool.Get(playerEntitty);
-                var currentHealh = _sharedData.GetPlayerCharacteristic.GetLives.GetCurrrentLives;
-                healthView.Value.size = new Vector2(currentHealh, 1);
-
-                if (_sharedData.GetPlayerCharacteristic.GetLives.GetCurrrentLives == 0)
+                foreach (var entity in filterTrigger)
                 {
-                    _reachedToPlayer = false;
-                    _isReachedComponentPool.Del(entity);
-                }
+                    ref AIPathComponent aiPathComponent = ref _isReachedComponentPool.Get(entity);
+              
+                    _reachedToPlayer = aiPathComponent.AIPath.reachedEndOfPath;
+                    ref AIDestanationComponent target = ref _aiDestanationComponenPool.Get(entity);
+                    ref TransformComponent player = ref _playerTransformPool.Get(playerEntity);
+                    target.AIDestinationSetter.target = player.Value;
+                    ref HealthViewComponent healthView = ref _playerHealthViewComponentPool.Get(playerEntity);
+                    var currentHealh = _sharedData.GetPlayerCharacteristic.GetLives.GetCurrrentLives;
+                    healthView.Value.size = new Vector2(currentHealh, 1);
 
-                return;
+        
+
+                    if (_sharedData.GetPlayerCharacteristic.GetLives.GetCurrrentLives == 0)
+                    {
+                        _reachedToPlayer = false;
+                        _isReachedComponentPool.Del(entity);
+                    }
+
+                    return;
+                }
+            
+                _reachedToPlayer = false;
+            }
+
             }
             
-            _reachedToPlayer = false;
-        }
-
+            
+          
         
         private void Attack()
         {
             _sharedData.GetPlayerCharacteristic.GetLives.UpdateLives(-1);
+            
         }
 
         

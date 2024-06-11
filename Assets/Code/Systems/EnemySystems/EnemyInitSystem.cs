@@ -46,6 +46,7 @@ namespace MSuhininTestovoe.B2B
             _enemyHealthComponentPool = _world.GetPool<EnemyHealthComponent>();
             _enemyBoxColliderComponentPool = _world.GetPool<BoxColliderComponent>();
             _aiDestanationComponenPool = _world.GetPool<AIDestanationComponent>();
+            _aIpathComponenPool = _world.GetPool<AIPathComponent>();
             _dropComponentPool = _world.GetPool<DropAssetComponent>();
         }
 
@@ -85,16 +86,23 @@ namespace MSuhininTestovoe.B2B
                     ref _enemyStartRotationComponentPool.Add(newEntity);
                 ref AIDestanationComponent aiDestanationComponent = ref _aiDestanationComponenPool.Add(newEntity);
                 ref DropAssetComponent dropAssetComponent = ref _dropComponentPool.Add(newEntity);
+                ref AIPathComponent aiPath = ref _aIpathComponenPool.Add(newEntity);
+                
 
                 spawn.SpawnLenght = dataInit.CountForInstantiate;
-                transformComponent.Value = pooled.gameObject.GetComponent<TransformView>().Transform;
-                enemyHealth.HealthValue = (int) pooled.GetComponent<HealthView>().Value.size.x;
-                enemyBoxColliderComponent.ColliderValue = pooled.GetComponent<BoxCollider>();
+                var enemy = pooled.gameObject;
+                transformComponent.Value = enemy.GetComponent<TransformView>().Transform;
+                enemyHealth.HealthValue = (int) enemy.GetComponent<HealthView>().Value.size.x;
+                enemyBoxColliderComponent.ColliderValue = enemy.GetComponent<BoxCollider>();
                 enemyStartPositionComponent.Value = new List<Vector3>();
                 enemyStartRotationComponent.Value = new List<Vector3>();
-                aiDestanationComponent.AIDestinationSetter = pooled.gameObject.GetComponent<AIDestinationSetter>();
+                aiDestanationComponent.AIDestinationSetter = enemy.GetComponent<AIDestinationSetter>();
+                aiPath.AIPath = enemy.GetComponent<AIPath>();
+             
+              
                 var index = Extensions.GetRandomDigit(0, dataInit.DropPrefabs.Count);
                 dropAssetComponent.Drop = dataInit.DropPrefabs[index];
+                
           
                 foreach (var pos in dataInit.StartPositions)
                 {
