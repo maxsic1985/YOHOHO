@@ -48,7 +48,7 @@ namespace MSuhininTestovoe.B2B
       
         private void PlayerMoving(ref TransformComponent transformComponent, ref PlayerInputComponent inputComponent)//,ref DestinationComponent destinationComponent)
         {
-            Vector3 direction = Vector3.up * inputComponent.Vertical + Vector3.right * inputComponent.Horizontal;
+            Vector3 direction = Vector3.forward * inputComponent.Vertical + Vector3.right * inputComponent.Horizontal;
            
          transformComponent.Value.position = Vector3.Lerp( transformComponent.Value.position,
              transformComponent.Value.position+direction,
