@@ -47,9 +47,7 @@ namespace MSuhininTestovoe.B2B
 
         private void PlayerMoving(ref TransformComponent transformComponent, ref PlayerInputComponent inputComponent)
         {
-            Debug.Log("vert"+inputComponent.Vertical);
-           // var k =Mathf.Abs(inputComponent.Vertical)  > 0.8f ? inputComponent.Vertical * 1 : 0;
-           if(Mathf.Abs(inputComponent.Vertical)  < 0.8f) return;
+            if(Mathf.Abs(inputComponent.Vertical)  < Mathf.Abs(inputComponent.Horizontal)) return;
             Vector3 direction =
                 transformComponent.Value.forward * inputComponent.Vertical;
             var transform = transformComponent.Value;

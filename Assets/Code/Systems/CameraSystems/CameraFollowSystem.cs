@@ -31,21 +31,18 @@ namespace MSuhininTestovoe.B2B
                 ref TransformComponent cameraTransformComponent = ref _transformComponentPool.Get(cameraEntity);
                 ref TransformComponent playerTransformComponent =
                     ref _transformComponentPool.Get(_playerFilter.GetRawEntities()[0]);
-                Vector3 currentPosition = cameraTransformComponent.Value.position;
-                var fff = (playerTransformComponent.Value.position - cameraTransformComponent.Value.localPosition).normalized;
-                Vector3 targetPoint = new Vector3(playerTransformComponent.Value.localPosition.x,
-                    playerTransformComponent.Value.position.y+5,
-                    playerTransformComponent.Value.localPosition.z)+fff;
+                var currentPosition = cameraTransformComponent.Value;
+                var playerPosition = playerTransformComponent.Value;
+                Vector3 targetPoint = new Vector3(
+                    playerPosition.localPosition.x,
+                    playerPosition.position.y + 4,
+                    playerPosition.localPosition.z);
 
-                var pers = playerTransformComponent.Value;
-                var cam = cameraTransformComponent.Value;
-                cam.transform.rotation = Quaternion.LookRotation(pers.transform.forward, pers.transform.up);
-                
-                cameraTransformComponent.Value.position = Vector3.SmoothDamp(currentPosition, targetPoint,
+
+                currentPosition.transform.rotation = Quaternion.LookRotation(playerPosition.transform.forward, playerPosition.up);
+
+                cameraTransformComponent.Value.position = Vector3.SmoothDamp(currentPosition.position, targetPoint,
                     ref isCameraComponent.CurrentVelocity, isCameraComponent.CameraSmoothness);
-
-
-           
             }
         }
     }

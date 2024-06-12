@@ -1,4 +1,5 @@
 ﻿using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using LeopotamGroup.Globals;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace MSuhininTestovoe.B2B
         private EcsPool<TransformComponent> _transformComponentPool;
         private ITimeService _timeService;
         private Vector3 playerPosition;
-
+        readonly EcsCustomInject<SharedData> _shared = default;
 
         public void Init(IEcsSystems systems)
         {
@@ -46,16 +47,14 @@ namespace MSuhininTestovoe.B2B
 
         private void PlayerRotating(ref TransformComponent transformComponent, ref PlayerInputComponent inputComponent)
         {
-          //  var k =Mathf.Abs(inputComponent.Horizontal)  > 0.8f ? inputComponent.Horizontal * 1 : 0;
-          if(Mathf.Abs(inputComponent.Horizontal)  < 0.8f) return;
+            if(Mathf.Abs(inputComponent.Horizontal)  < Mathf.Abs(inputComponent.Vertical)) return;
             
-            Debug.Log("hor"+inputComponent.Horizontal);
             Vector3 directionRotation = transformComponent.Value.right *inputComponent.Horizontal;
             var transform = transformComponent.Value.transform;
 
             Quaternion toRotation = Quaternion.LookRotation(directionRotation, Vector3.up);
             transform.rotation =
-                Quaternion.RotateTowards(transform.rotation, toRotation, 10 * _timeService.DeltaTime);
+                Quaternion.RotateTowards(transform.rotation, toRotation, _shared.Value.GetPlayerSharedData.GetPlayerCharacteristic.TurnSpeed * _timeService.DeltaTime);
         }
     }
 }

@@ -40,6 +40,7 @@ namespace MSuhininTestovoe.B2B
 #endif
                .Inject(_joystick, WorldsNamesConstants.EVENTS)
                .Inject(_attackView, WorldsNamesConstants.EVENTS)
+               .Inject(shared, WorldsNamesConstants.EVENTS)
                 .InjectUgui(uguiEmitter, WorldsNamesConstants.EVENTS)
                 .Init();
 

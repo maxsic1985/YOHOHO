@@ -13,6 +13,7 @@ namespace MSuhininTestovoe.B2B
         [SerializeField] private Sprite _icon;
 
         [SerializeField] private float _baseSpeed;
+        [SerializeField] private float _baseTurnSpeed;
         [SerializeField] private int _baseScore;
         [SerializeField] private int _currentScore;
         [SerializeField] private Transform _transform;
@@ -23,6 +24,7 @@ namespace MSuhininTestovoe.B2B
         public PlayerLivesCharacteristic GetLives => _playerLivesCharacteristic;
 
         public float Speed => _baseSpeed;
+        public float TurnSpeed => _baseTurnSpeed;
 
         public Transform Transform=>_transform;
         
