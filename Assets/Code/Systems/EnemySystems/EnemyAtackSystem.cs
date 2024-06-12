@@ -5,7 +5,6 @@ using UniRx;
 using UnityEngine;
 
 
-
 namespace MSuhininTestovoe.B2B
 {
     public class EnemyAtackSystem : IEcsInitSystem, IEcsRunSystem, IDisposable
@@ -18,13 +17,8 @@ namespace MSuhininTestovoe.B2B
         private EcsPool<HealthViewComponent> _playerHealthViewComponentPool;
         private EcsPool<AIDestanationComponent> _aiDestanationComponenPool;
         private EcsPool<TransformComponent> _playerTransformPool;
-        
-        private PlayerSharedData _sharedData;
 
-        public bool ReachedToPlayer
-        {
-            get => _reachedToPlayer;
-        }
+        private PlayerSharedData _sharedData;
 
 
         public void Init(IEcsSystems systems)
@@ -37,19 +31,19 @@ namespace MSuhininTestovoe.B2B
                 .Filter<IsPlayerComponent>()
                 .Inc<HealthViewComponent>()
                 .End();
-            
-            
+
+
             filterTrigger = systems.GetWorld()
                 .Filter<AIPathComponent>()
                 .Inc<AIDestanationComponent>()
                 .End();
-          
+
             _playerHealthViewComponentPool = _world.GetPool<HealthViewComponent>();
             _isReachedComponentPool = _world.GetPool<AIPathComponent>();
             _aiDestanationComponenPool = _world.GetPool<AIDestanationComponent>();
             _playerTransformPool = _world.GetPool<TransformComponent>();
 
-            Observable.Timer(TimeSpan.FromMilliseconds(3000)).Where(_ => ReachedToPlayer)
+            Observable.Timer(TimeSpan.FromMilliseconds(3000)).Where(_ => true)
                 .Subscribe(x => { Attack(); })
                 .AddTo(_disposables);
         }
@@ -61,7 +55,7 @@ namespace MSuhininTestovoe.B2B
                 foreach (var entity in filterTrigger)
                 {
                     ref AIPathComponent aiPathComponent = ref _isReachedComponentPool.Get(entity);
-              
+
                     _reachedToPlayer = aiPathComponent.AIPath.reachedEndOfPath;
                     ref AIDestanationComponent target = ref _aiDestanationComponenPool.Get(entity);
                     ref TransformComponent player = ref _playerTransformPool.Get(playerEntity);
@@ -70,7 +64,6 @@ namespace MSuhininTestovoe.B2B
                     var currentHealh = _sharedData.GetPlayerCharacteristic.GetLives.GetCurrrentLives;
                     healthView.Value.size = new Vector2(currentHealh, 1);
 
-        
 
                     if (_sharedData.GetPlayerCharacteristic.GetLives.GetCurrrentLives == 0)
                     {
@@ -80,22 +73,18 @@ namespace MSuhininTestovoe.B2B
 
                     return;
                 }
-            
+
                 _reachedToPlayer = false;
             }
+        }
 
-            }
-            
-            
-          
-        
+
         private void Attack()
         {
             _sharedData.GetPlayerCharacteristic.GetLives.UpdateLives(-1);
-            
         }
 
-        
+
         public void Dispose()
         {
             _disposables.Clear();

@@ -8,16 +8,14 @@ using UnityEngine.Scripting;
 
 namespace MSuhininTestovoe.B2B
 {
-    public class PlayerAtackSystem : EcsUguiCallbackSystem, IEcsInitSystem
+    public class PlayerRaySystem : EcsUguiCallbackSystem, IEcsInitSystem
     {
         private EcsFilter _filter;
         private EcsFilter _enemyFilter;
-        private EcsPool<IsPlayerCanAttackComponent> _isCanAttackComponentPool;
         private EcsPool<HealthViewComponent> _enemyHealthViewComponentPool;
         private EcsPool<EnemyHealthComponent> _enemyHealthComponentPool;
         private int _entity;
         private readonly EcsCustomInject<AttackInputView> _attackInput = default;
-        private readonly EcsCustomInject<SharedData> _shared = default;
         
 
         [Preserve]
@@ -35,7 +33,6 @@ namespace MSuhininTestovoe.B2B
                     healthView.Value.size = new Vector2(currentHealh, 1);
                     _entity = enemyEntity;
                 }
-              
                 Attack();
             }
         }
@@ -54,15 +51,11 @@ namespace MSuhininTestovoe.B2B
                 .End();
             _enemyHealthViewComponentPool = world.GetPool<HealthViewComponent>();
             _enemyHealthComponentPool = world.GetPool<EnemyHealthComponent>();
-            _isCanAttackComponentPool = world.GetPool<IsPlayerCanAttackComponent>();
         }
         
         
         private void Attack()
         {
-           
-            
-            
             ref EnemyHealthComponent healthValue = ref _enemyHealthComponentPool.Get(_entity);
             healthValue.HealthValue -= 1;
         }

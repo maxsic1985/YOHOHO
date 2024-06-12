@@ -1,4 +1,5 @@
 ﻿using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using LeopotamGroup.Globals;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace MSuhininTestovoe.B2B
         private ITimeService _timeService;
         private PlayerSharedData _sharedData;
         private Vector3 playerPosition;
-
+        private readonly EcsCustomInject<AttackInputView> _attackInput = default;
 
         public void Init(IEcsSystems systems)
         {
@@ -54,6 +55,20 @@ namespace MSuhininTestovoe.B2B
             transform.position = Vector3.Lerp(transform.position,
                 transform.position + direction,
                 _sharedData.GetPlayerCharacteristic.Speed * _timeService.DeltaTime);
+            
+            var player = _sharedData.GetPlayerCharacteristic.Transform;
+            Ray r = new Ray(transform.transform.position,transform.forward);
+            var hit = Physics.Raycast(r, out var hitInfo);
+            Debug.DrawRay(transform.transform.position,transform.forward,Color.red);
+            if (hit)
+            {
+                _attackInput.Value.TriggerEnter?.Invoke(true);
+                Debug.Log(hitInfo.transform.gameObject);
+            }
+            else
+            {
+                _attackInput.Value.TriggerEnter?.Invoke(false);
+            }
         }
     }
 }

@@ -26,6 +26,5 @@ namespace MSuhininTestovoe.B2B
             if (show) _attackBtn.SetActive(true);
             else _attackBtn.SetActive(false);
         }
-
     }
 }
