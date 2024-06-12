@@ -25,6 +25,14 @@ MonoBehaviour:
     m_Address: Enemy1
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: b6d471720d72c2049a96344a70f31475
+    m_Address: CameraLoadData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e7f558f365c35f64eb89363a515a786f
+    m_Address: Camera
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 4e685cad4f2584fc5ba897fddc3c7841, type: 2}
   m_SchemaSet:

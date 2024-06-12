@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: CameraLoadData
   m_EditorClassIdentifier: 
   Camera:
-    m_AssetGUID: 
+    m_AssetGUID: e7f558f365c35f64eb89363a515a786f
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  StartPosition: {x: 0, y: 0, z: 0}
-  StartRotation: {x: 0, y: 0, z: 0}
-  CameraSmoothness: 0
+  StartPosition: {x: 0, y: 10, z: -10}
+  StartRotation: {x: 21, y: 0, z: 0}
+  CameraSmoothness: 0.19

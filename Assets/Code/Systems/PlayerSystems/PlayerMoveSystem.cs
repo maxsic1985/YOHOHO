@@ -48,11 +48,15 @@ namespace MSuhininTestovoe.B2B
       
         private void PlayerMoving(ref TransformComponent transformComponent, ref PlayerInputComponent inputComponent)//,ref DestinationComponent destinationComponent)
         {
-            Vector3 direction = Vector3.forward * inputComponent.Vertical + Vector3.right * inputComponent.Horizontal;
-           
+            Vector3 direction = transformComponent.Value.forward * inputComponent.Vertical + transformComponent.Value.right * inputComponent.Horizontal;
+         
          transformComponent.Value.position = Vector3.Lerp( transformComponent.Value.position,
              transformComponent.Value.position+direction,
              _sharedData.GetPlayerCharacteristic.Speed * _timeService.DeltaTime);
+         
+         //transformComponent.Value.rotation = Quaternion.Lerp (transformComponent.Value.rotation , Quaternion.Euler(0,90,0),  _timeService.DeltaTime * 10);
+        
+         
         }
     }
 }

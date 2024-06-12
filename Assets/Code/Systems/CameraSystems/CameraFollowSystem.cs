@@ -1,4 +1,5 @@
 ﻿using Leopotam.EcsLite;
+using LeopotamGroup.Globals;
 using UnityEngine;
 
 namespace MSuhininTestovoe.B2B
@@ -9,6 +10,8 @@ namespace MSuhininTestovoe.B2B
         private EcsFilter _playerFilter;
         private EcsPool<IsCameraComponent> _isCameraComponentPool;
         private EcsPool<TransformComponent> _transformComponentPool;
+        private ITimeService _timeService;
+
 
         public void Init(IEcsSystems systems)
         {
@@ -17,6 +20,7 @@ namespace MSuhininTestovoe.B2B
             _playerFilter = world.Filter<IsPlayerComponent>().End();
             _isCameraComponentPool = world.GetPool<IsCameraComponent>();
             _transformComponentPool = world.GetPool<TransformComponent>();
+            _timeService = Service<ITimeService>.Get();
         }
 
         public void Run(IEcsSystems systems)
@@ -28,11 +32,19 @@ namespace MSuhininTestovoe.B2B
                 ref TransformComponent playerTransformComponent =
                     ref _transformComponentPool.Get(_playerFilter.GetRawEntities()[0]);
                 Vector3 currentPosition = cameraTransformComponent.Value.position;
-                Vector3 targetPoint = new Vector3(playerTransformComponent.Value.position.x, 0,
-                    playerTransformComponent.Value.position.z) + isCameraComponent.Offset;
+                var fff = (playerTransformComponent.Value.position - cameraTransformComponent.Value.localPosition).normalized;
+                Vector3 targetPoint = new Vector3(playerTransformComponent.Value.localPosition.x,
+                    playerTransformComponent.Value.position.y+5,
+                    playerTransformComponent.Value.localPosition.z)+fff;
 
+                var pers = playerTransformComponent.Value;
+                var cam = cameraTransformComponent.Value;
+                cam.transform.rotation = Quaternion.LookRotation(pers.transform.forward, pers.transform.up);
                 cameraTransformComponent.Value.position = Vector3.SmoothDamp(currentPosition, targetPoint,
                     ref isCameraComponent.CurrentVelocity, isCameraComponent.CameraSmoothness);
+
+
+           
             }
         }
     }
