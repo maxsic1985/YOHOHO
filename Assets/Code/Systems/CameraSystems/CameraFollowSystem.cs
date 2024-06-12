@@ -40,6 +40,7 @@ namespace MSuhininTestovoe.B2B
                 var pers = playerTransformComponent.Value;
                 var cam = cameraTransformComponent.Value;
                 cam.transform.rotation = Quaternion.LookRotation(pers.transform.forward, pers.transform.up);
+                
                 cameraTransformComponent.Value.position = Vector3.SmoothDamp(currentPosition, targetPoint,
                     ref isCameraComponent.CurrentVelocity, isCameraComponent.CameraSmoothness);
 
