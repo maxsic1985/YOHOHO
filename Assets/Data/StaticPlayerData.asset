@@ -18,6 +18,3 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   StartPosition: {x: 0, y: 1, z: -10}
-  MoveDistance: 1
-  MoveSpeed: 1
-  JumpSpeed: 1

@@ -49,26 +49,11 @@ namespace MSuhininTestovoe.B2B
         private void PlayerMoving(ref TransformComponent transformComponent, ref PlayerInputComponent inputComponent)
         {
             if(Mathf.Abs(inputComponent.Vertical)  < Mathf.Abs(inputComponent.Horizontal)) return;
-            Vector3 direction =
-                transformComponent.Value.forward * inputComponent.Vertical;
+            Vector3 direction = transformComponent.Value.forward * inputComponent.Vertical;
             var transform = transformComponent.Value;
             transform.position = Vector3.Lerp(transform.position,
                 transform.position + direction,
                 _sharedData.GetPlayerCharacteristic.Speed * _timeService.DeltaTime);
-            
-            var player = _sharedData.GetPlayerCharacteristic.Transform;
-            Ray r = new Ray(transform.transform.position,transform.forward);
-            var hit = Physics.Raycast(r, out var hitInfo);
-            Debug.DrawRay(transform.transform.position,transform.forward,Color.red);
-            if (hit)
-            {
-                _attackInput.Value.TriggerEnter?.Invoke(true);
-                Debug.Log(hitInfo.transform.gameObject);
-            }
-            else
-            {
-                _attackInput.Value.TriggerEnter?.Invoke(false);
-            }
         }
     }
 }

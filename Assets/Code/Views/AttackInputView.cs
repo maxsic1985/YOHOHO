@@ -6,18 +6,18 @@ namespace MSuhininTestovoe.B2B
 {
     public sealed class AttackInputView : BaseView
     {
-        public Action<bool> TriggerEnter;
+        public Action<bool> RayAction;
         [SerializeField] private GameObject _attackBtn;
         public GameObject AttackBtn => _attackBtn;
         
 
         private void OnDestroy()
         {
-            TriggerEnter -= ShowIconAttack;
+            RayAction -= ShowIconAttack;
         }
         private void Awake()
         {
-            TriggerEnter += ShowIconAttack;
+            RayAction += ShowIconAttack;
             ShowIconAttack(false);
         }
 

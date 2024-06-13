@@ -5,59 +5,56 @@ using UnityEngine;
 using UnityEngine.Scripting;
 
 
-
 namespace MSuhininTestovoe.B2B
 {
-    public class PlayerRaySystem : EcsUguiCallbackSystem, IEcsInitSystem
+    public class PlayerRaySystem : EcsUguiCallbackSystem, IEcsInitSystem, IEcsRunSystem
     {
-        private EcsFilter _filter;
-        private EcsFilter _enemyFilter;
-        private EcsPool<HealthViewComponent> _enemyHealthViewComponentPool;
-        private EcsPool<EnemyHealthComponent> _enemyHealthComponentPool;
-        private int _entity;
+        private EcsFilter _playerFilter;
+        private EcsPool<PlayerInputComponent> _playerInputComponentPool;
+        private EcsPool<IsPlayerControlComponent> _isPlayerMoveComponentPool;
+        private EcsPool<RayComponent> _rayComponent;
+        private EcsPool<TransformComponent> _transformComponentPool;
+        private PlayerSharedData _sharedData;
+        private Vector3 playerPosition;
         private readonly EcsCustomInject<AttackInputView> _attackInput = default;
-        
 
-        [Preserve]
-        [EcsUguiClickEvent(UIConstants.BTN_ATACK, WorldsNamesConstants.EVENTS)] 
-        void OnClickPlayerAttack(in EcsUguiClickEvent e)
-        {
-            foreach (var entity in _filter)
-            {
-                foreach (var enemyEntity in _enemyFilter)
-                {
-                    ref HealthViewComponent healthView = ref _enemyHealthViewComponentPool.Get(enemyEntity);
-                    ref EnemyHealthComponent healthValue = ref _enemyHealthComponentPool.Get(enemyEntity);
-                    var currentHealh = healthValue.HealthValue;
-            
-                    healthView.Value.size = new Vector2(currentHealh, 1);
-                    _entity = enemyEntity;
-                }
-                Attack();
-            }
-        }
-        
-        
+
         public void Init(IEcsSystems systems)
         {
             EcsWorld world = systems.GetWorld();
-            _filter = world
-                .Filter<IsPlayerCanAttackComponent>()
+            _sharedData = systems.GetShared<SharedData>().GetPlayerSharedData;
+            _playerFilter = world.Filter<IsPlayerComponent>()
+                .Inc<TransformComponent>()
                 .End();
-            
-            _enemyFilter = world
-                .Filter<EnemyHealthComponent>()
-                .Inc<HealthViewComponent>()
-                .End();
-            _enemyHealthViewComponentPool = world.GetPool<HealthViewComponent>();
-            _enemyHealthComponentPool = world.GetPool<EnemyHealthComponent>();
+            _playerInputComponentPool = world.GetPool<PlayerInputComponent>();
+            _transformComponentPool = world.GetPool<TransformComponent>();
+            _isPlayerMoveComponentPool = world.GetPool<IsPlayerControlComponent>();
+            _rayComponent = world.GetPool<RayComponent>();
         }
-        
-        
-        private void Attack()
+
+        public void Run(IEcsSystems systems)
         {
-            ref EnemyHealthComponent healthValue = ref _enemyHealthComponentPool.Get(_entity);
-            healthValue.HealthValue -= 1;
+            foreach (int entity in _playerFilter)
+            {
+                ref TransformComponent transformComponent = ref _transformComponentPool.Get(entity);
+                ref PlayerInputComponent playerInputComponent = ref _playerInputComponentPool.Get(entity);
+
+                if (_isPlayerMoveComponentPool.Has(entity))
+                {
+                    Ray ray = new Ray(transformComponent.Value.transform.position, transformComponent.Value.forward);
+                    var hit = Physics.Raycast(ray, out var hitInfo);
+                    
+                    if (hit)
+                    {
+                        Extensions.AddPool<RayComponent>(systems,entity);
+                        _rayComponent.Get(entity).Value = hitInfo;
+                    }
+                    else
+                    {
+                        _rayComponent.Del(entity);
+                    }
+                }
+            }
         }
     }
 }

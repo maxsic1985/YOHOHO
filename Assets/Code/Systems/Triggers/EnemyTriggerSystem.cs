@@ -98,13 +98,13 @@ namespace MSuhininTestovoe.B2B
             {
                 ref IsPlayerCanAttackComponent canAtack = ref _isPlayerCanAtackComponenPool.Add(playerEntity);
                 canAtack.AttackInputView = _attackInput.Value;
-                canAtack.AttackInputView.TriggerEnter?.Invoke(state);
+                canAtack.AttackInputView.RayAction?.Invoke(state);
             }
             else
             {
                 ref IsPlayerCanAttackComponent canAtack = ref _isPlayerCanAtackComponenPool.Get(playerEntity);
                 canAtack.AttackInputView = _attackInput.Value;
-                canAtack.AttackInputView.TriggerEnter?.Invoke(state);
+                canAtack.AttackInputView.RayAction?.Invoke(state);
             }
         }
     }
