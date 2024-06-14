@@ -166,9 +166,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 36.07
       objectReference: {fileID: 0}
+    - target: {fileID: 1536552439639889933, guid: 607ab78d923b249e09c95de216107a51, type: 3}
+      propertyPath: _widgetName
+      value: EnemyLblWidget
+      objectReference: {fileID: 0}
     - target: {fileID: 1536552439639889935, guid: 607ab78d923b249e09c95de216107a51, type: 3}
       propertyPath: m_Name
-      value: PlayerHealth
+      value: EnemyDeathCnt
       objectReference: {fileID: 0}
     - target: {fileID: 1536552440267140552, guid: 607ab78d923b249e09c95de216107a51, type: 3}
       propertyPath: m_RootOrder
