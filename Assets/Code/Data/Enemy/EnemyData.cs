@@ -21,10 +21,6 @@ namespace MSuhininTestovoe.B2B
 
         [Header("Security:")]
         public float EndReachedDistance;
-        
-        [Header("Drop:")]
-        public List<AssetReferenceGameObject> DropPrefabs;
-        
     }
 }
 

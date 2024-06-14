@@ -24,7 +24,6 @@ namespace MSuhininTestovoe.B2B
         private EcsPool<AIDestanationComponent> _aiDestanationComponenPool;
         private EcsPool<AIPathComponent> _aIpathComponenPool;
         private EcsPool<BoxColliderComponent> _enemyBoxColliderComponentPool;
-        private EcsPool<DropAssetComponent> _dropComponentPool;
         private IPoolService _poolService;
 
 
@@ -49,7 +48,6 @@ namespace MSuhininTestovoe.B2B
             _enemyBoxColliderComponentPool = _world.GetPool<BoxColliderComponent>();
             _aiDestanationComponenPool = _world.GetPool<AIDestanationComponent>();
             _aIpathComponenPool = _world.GetPool<AIPathComponent>();
-            _dropComponentPool = _world.GetPool<DropAssetComponent>();
             
         }
 
@@ -89,7 +87,6 @@ namespace MSuhininTestovoe.B2B
                 ref EnemyStartRotationComponent enemyStartRotationComponent =
                     ref _enemyStartRotationComponentPool.Add(newEntity);
                 ref AIDestanationComponent aiDestanationComponent = ref _aiDestanationComponenPool.Add(newEntity);
-                ref DropAssetComponent dropAssetComponent = ref _dropComponentPool.Add(newEntity);
                 ref AIPathComponent aiPath = ref _aIpathComponenPool.Add(newEntity);
                 
 
@@ -105,12 +102,7 @@ namespace MSuhininTestovoe.B2B
                 enemyStartRotationComponent.Value = new List<Vector3>();
                 aiDestanationComponent.AIDestinationSetter = enemy.GetComponent<AIDestinationSetter>();
                 aiPath.AIPath = enemy.GetComponent<AIPath>();
-             
-              
-                var index = Extensions.GetRandomDigit(0, dataInit.DropPrefabs.Count);
-                dropAssetComponent.Drop = dataInit.DropPrefabs[index];
                 
-          
                 foreach (var pos in dataInit.StartPositions)
                 {
                     enemyStartPositionComponent.Value.Add(pos);
