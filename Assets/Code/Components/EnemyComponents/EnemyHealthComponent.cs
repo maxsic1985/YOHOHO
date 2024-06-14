@@ -1,6 +1,4 @@
-﻿using Pathfinding;
-
-namespace MSuhininTestovoe.B2B
+﻿namespace MSuhininTestovoe.B2B
 {
     public struct EnemyHealthComponent
     {

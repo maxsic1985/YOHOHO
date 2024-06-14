@@ -45,6 +45,10 @@ namespace MSuhininTestovoe.B2B
                     _attackInput.Value.RayAction?.Invoke(true);
                     _isCanAttackComponentPool.Add(entity);
                 }
+                else
+                {
+                    _attackInput.Value.RayAction?.Invoke(false);
+                }
             }
 
             foreach (var entity in _filterRayOff)

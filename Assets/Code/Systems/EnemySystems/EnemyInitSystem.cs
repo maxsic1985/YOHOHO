@@ -20,6 +20,7 @@ namespace MSuhininTestovoe.B2B
         private EcsPool<EnemySpawnComponent> _enemySpawnComponentPool;
         private EcsPool<TransformComponent> _transformComponentPool;
         private EcsPool<EnemyHealthComponent> _enemyHealthComponentPool;
+        private EcsPool<HealthViewComponent> _healthViewComponentPool;
         private EcsPool<AIDestanationComponent> _aiDestanationComponenPool;
         private EcsPool<AIPathComponent> _aIpathComponenPool;
         private EcsPool<BoxColliderComponent> _enemyBoxColliderComponentPool;
@@ -44,10 +45,12 @@ namespace MSuhininTestovoe.B2B
             _enemyStartPositionComponentPool = _world.GetPool<EnemyStartPositionComponent>();
             _transformComponentPool = _world.GetPool<TransformComponent>();
             _enemyHealthComponentPool = _world.GetPool<EnemyHealthComponent>();
+            _healthViewComponentPool = _world.GetPool<HealthViewComponent>();
             _enemyBoxColliderComponentPool = _world.GetPool<BoxColliderComponent>();
             _aiDestanationComponenPool = _world.GetPool<AIDestanationComponent>();
             _aIpathComponenPool = _world.GetPool<AIPathComponent>();
             _dropComponentPool = _world.GetPool<DropAssetComponent>();
+            
         }
 
 
@@ -79,6 +82,7 @@ namespace MSuhininTestovoe.B2B
                 ref EnemySpawnComponent spawn = ref _enemySpawnComponentPool.Add(newEntity);
                 ref TransformComponent transformComponent = ref _transformComponentPool.Add(newEntity);
                 ref EnemyHealthComponent enemyHealth = ref _enemyHealthComponentPool.Add(newEntity);
+                ref HealthViewComponent healthView = ref _healthViewComponentPool.Add(newEntity);
                 ref BoxColliderComponent enemyBoxColliderComponent = ref _enemyBoxColliderComponentPool.Add(newEntity);
                 ref EnemyStartPositionComponent enemyStartPositionComponent =
                     ref _enemyStartPositionComponentPool.Add(newEntity);
@@ -92,7 +96,9 @@ namespace MSuhininTestovoe.B2B
                 spawn.SpawnLenght = dataInit.CountForInstantiate;
                 var enemy = pooled.gameObject;
                 transformComponent.Value = enemy.GetComponent<TransformView>().Transform;
-                enemyHealth.HealthValue = (int) enemy.GetComponent<HealthView>().Value.size.x;
+                enemyHealth.HealthValue = dataInit.Lives;
+                healthView.Value = enemy.GetComponent<HealthView>().Value;
+                healthView.Value.size = new Vector2(enemyHealth.HealthValue, 1);
                 enemyBoxColliderComponent.ColliderValue = enemy.GetComponent<BoxCollider>();
                 enemyStartPositionComponent.Value = new List<Vector3>();
                 enemyStartRotationComponent.Value = new List<Vector3>();
