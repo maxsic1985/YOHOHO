@@ -13,11 +13,8 @@ MonoBehaviour:
   m_Name: StaticPlayerData
   m_EditorClassIdentifier: 
   Player:
-    m_AssetGUID: d2b8f4e9d9ac9407183303e7a7593c91
+    m_AssetGUID: c8072752a9e0ee2489d1c82a7b3b1f08
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  StartPosition: {x: -4, y: 0, z: 0}
-  MoveDistance: 1
-  MoveSpeed: 1
-  JumpSpeed: 1
+  StartPosition: {x: 0, y: 1, z: -10}

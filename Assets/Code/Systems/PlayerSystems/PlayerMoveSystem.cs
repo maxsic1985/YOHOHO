@@ -1,7 +1,7 @@
 ﻿using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using LeopotamGroup.Globals;
 using UnityEngine;
-
 
 
 namespace MSuhininTestovoe.B2B
@@ -13,10 +13,10 @@ namespace MSuhininTestovoe.B2B
         private EcsPool<IsPlayerControlComponent> _isPlayerMoveComponentPool;
         private EcsPool<TransformComponent> _transformComponentPool;
         private ITimeService _timeService;
-        private   PlayerSharedData _sharedData;
+        private PlayerSharedData _sharedData;
         private Vector3 playerPosition;
+        private readonly EcsCustomInject<AttackInputView> _attackInput = default;
 
-        
         public void Init(IEcsSystems systems)
         {
             EcsWorld world = systems.GetWorld();
@@ -31,7 +31,7 @@ namespace MSuhininTestovoe.B2B
             _timeService = Service<ITimeService>.Get();
         }
 
-        
+
         public void Run(IEcsSystems systems)
         {
             foreach (int entity in _playerFilter)
@@ -45,14 +45,15 @@ namespace MSuhininTestovoe.B2B
             }
         }
 
-      
-        private void PlayerMoving(ref TransformComponent transformComponent, ref PlayerInputComponent inputComponent)//,ref DestinationComponent destinationComponent)
+
+        private void PlayerMoving(ref TransformComponent transformComponent, ref PlayerInputComponent inputComponent)
         {
-            Vector3 direction = Vector3.up * inputComponent.Vertical + Vector3.right * inputComponent.Horizontal;
-           
-         transformComponent.Value.position = Vector3.Lerp( transformComponent.Value.position,
-             transformComponent.Value.position+direction,
-             _sharedData.GetPlayerCharacteristic.Speed * _timeService.DeltaTime);
+            if(Mathf.Abs(inputComponent.Vertical)  < Mathf.Abs(inputComponent.Horizontal)) return;
+            Vector3 direction = transformComponent.Value.forward * inputComponent.Vertical;
+            var transform = transformComponent.Value;
+            transform.position = Vector3.Lerp(transform.position,
+                transform.position + direction,
+                _sharedData.GetPlayerCharacteristic.Speed * _timeService.DeltaTime);
         }
     }
 }

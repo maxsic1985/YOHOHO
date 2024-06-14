@@ -16,7 +16,39 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: d18cb71a5c2c941239f2a39a899f9808
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: c8072752a9e0ee2489d1c82a7b3b1f08
+    m_Address: StaticPlayerData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ef09f13326013d44e9235be20ec1e36b
+    m_Address: Enemy1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b6d471720d72c2049a96344a70f31475
+    m_Address: CameraLoadData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e7f558f365c35f64eb89363a515a786f
+    m_Address: Camera
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8af5cb6f475d7e649b15e63145903ea5
+    m_Address: MusicLoadData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0e4757bda612da7439d2f856fca91161
+    m_Address: BackgroundMusic
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 582b8ca13b6141e4ca0a2ec830d754e2
+    m_Address: SoundEffectsLoadData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7fafccb5b475867469d6eeba2c56aa65
+    m_Address: SoundEffects.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 4e685cad4f2584fc5ba897fddc3c7841, type: 2}
   m_SchemaSet:

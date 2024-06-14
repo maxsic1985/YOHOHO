@@ -20,10 +20,10 @@ namespace MSuhininTestovoe.B2B
         private EcsPool<EnemySpawnComponent> _enemySpawnComponentPool;
         private EcsPool<TransformComponent> _transformComponentPool;
         private EcsPool<EnemyHealthComponent> _enemyHealthComponentPool;
+        private EcsPool<HealthViewComponent> _healthViewComponentPool;
         private EcsPool<AIDestanationComponent> _aiDestanationComponenPool;
         private EcsPool<AIPathComponent> _aIpathComponenPool;
         private EcsPool<BoxColliderComponent> _enemyBoxColliderComponentPool;
-        private EcsPool<DropAssetComponent> _dropComponentPool;
         private IPoolService _poolService;
 
 
@@ -44,9 +44,11 @@ namespace MSuhininTestovoe.B2B
             _enemyStartPositionComponentPool = _world.GetPool<EnemyStartPositionComponent>();
             _transformComponentPool = _world.GetPool<TransformComponent>();
             _enemyHealthComponentPool = _world.GetPool<EnemyHealthComponent>();
+            _healthViewComponentPool = _world.GetPool<HealthViewComponent>();
             _enemyBoxColliderComponentPool = _world.GetPool<BoxColliderComponent>();
             _aiDestanationComponenPool = _world.GetPool<AIDestanationComponent>();
-            _dropComponentPool = _world.GetPool<DropAssetComponent>();
+            _aIpathComponenPool = _world.GetPool<AIPathComponent>();
+            
         }
 
 
@@ -78,24 +80,29 @@ namespace MSuhininTestovoe.B2B
                 ref EnemySpawnComponent spawn = ref _enemySpawnComponentPool.Add(newEntity);
                 ref TransformComponent transformComponent = ref _transformComponentPool.Add(newEntity);
                 ref EnemyHealthComponent enemyHealth = ref _enemyHealthComponentPool.Add(newEntity);
+                ref HealthViewComponent healthView = ref _healthViewComponentPool.Add(newEntity);
                 ref BoxColliderComponent enemyBoxColliderComponent = ref _enemyBoxColliderComponentPool.Add(newEntity);
                 ref EnemyStartPositionComponent enemyStartPositionComponent =
                     ref _enemyStartPositionComponentPool.Add(newEntity);
                 ref EnemyStartRotationComponent enemyStartRotationComponent =
                     ref _enemyStartRotationComponentPool.Add(newEntity);
                 ref AIDestanationComponent aiDestanationComponent = ref _aiDestanationComponenPool.Add(newEntity);
-                ref DropAssetComponent dropAssetComponent = ref _dropComponentPool.Add(newEntity);
+                ref AIPathComponent aiPath = ref _aIpathComponenPool.Add(newEntity);
+                
 
                 spawn.SpawnLenght = dataInit.CountForInstantiate;
-                transformComponent.Value = pooled.gameObject.GetComponent<TransformView>().Transform;
-                enemyHealth.HealthValue = (int) pooled.GetComponent<HealthView>().Value.size.x;
-                enemyBoxColliderComponent.ColliderValue = pooled.GetComponent<BoxCollider>();
+                var enemy = pooled.gameObject;
+                transformComponent.Value = enemy.GetComponent<TransformView>().Transform;
+                enemyHealth.InitHealthValue = dataInit.Lives;
+                enemyHealth.HealthValue = dataInit.Lives;
+                healthView.Value = enemy.GetComponent<HealthView>().Value;
+                healthView.Value.size = new Vector2(enemyHealth.HealthValue, 1);
+                enemyBoxColliderComponent.ColliderValue = enemy.GetComponent<BoxCollider>();
                 enemyStartPositionComponent.Value = new List<Vector3>();
                 enemyStartRotationComponent.Value = new List<Vector3>();
-                aiDestanationComponent.AIDestinationSetter = pooled.gameObject.GetComponent<AIDestinationSetter>();
-                var index = Extensions.GetRandomDigit(0, dataInit.DropPrefabs.Count);
-                dropAssetComponent.Drop = dataInit.DropPrefabs[index];
-          
+                aiDestanationComponent.AIDestinationSetter = enemy.GetComponent<AIDestinationSetter>();
+                aiPath.AIPath = enemy.GetComponent<AIPath>();
+                
                 foreach (var pos in dataInit.StartPositions)
                 {
                     enemyStartPositionComponent.Value.Add(pos);

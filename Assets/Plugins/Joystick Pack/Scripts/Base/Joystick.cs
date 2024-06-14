@@ -149,11 +149,6 @@ using UnityEngine.EventSystems;
 
             return Vector2.zero;
         }
-
-        private void Update()
-        {
-            
-        }
     }
 
 

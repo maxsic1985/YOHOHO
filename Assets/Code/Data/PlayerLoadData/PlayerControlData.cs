@@ -11,10 +11,5 @@ namespace MSuhininTestovoe.B2B
         public AssetReferenceGameObject Player;
 
         [Header("Position:")] public Vector3 StartPosition;
-        [Header("Player moving data:")] 
-        public float MoveDistance;
-        public float MoveSpeed;
-        public float JumpSpeed;
-        
     }
 }

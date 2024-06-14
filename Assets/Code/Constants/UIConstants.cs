@@ -6,9 +6,9 @@ namespace MSuhininTestovoe.B2B
         public  const string MENU_TO_MAIN_MENU="ToMainMenuWidget";
         public  const string MENU_QUIT="QuitWidget";
         public  const string BTN_ATACK="PlayerAttackWidget";
-        public  const string BTN_CLOSE_INVENTORY="CloseInventotyWidget";
         public  const string BTN_SHOW_INVENTORY="ShowInventotyWidget";
-        public  const string ITEM="ItemWidget";
+        public  const string ENEMY_CNT="EnemyLblWidget";
+
         
 
        

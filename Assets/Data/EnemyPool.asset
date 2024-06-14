@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameObjectsTypeId: 3
   PooledObject:
-    m_AssetGUID: aee82e1da214342339ade8e72da88333
+    m_AssetGUID: ef09f13326013d44e9235be20ec1e36b
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

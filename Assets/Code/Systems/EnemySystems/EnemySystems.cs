@@ -12,6 +12,8 @@ namespace MSuhininTestovoe.B2B
                 .Add(new EnemyLoadSystem())
                 .Add(new EnemyInitSystem())
                 .Add(new EnemyAtackSystem())
+                .Add(new EnemyTargetSystem())
+                .Add(new EnemyRespawnSystem())
                 .Add(new EnemyDeathSystem());
 
         }
