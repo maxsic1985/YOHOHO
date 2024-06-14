@@ -10,7 +10,7 @@ namespace MSuhininTestovoe.B2B
         private EcsPool<TransformComponent> _transformComponentPool;
         private EcsPool<SoundStartPositionComponent> _soundStartPositionComponentPool;
         private EcsPool<SoundMusicSourceComponent> _soundMusicSourceComponentPool;
-      
+        private EcsPool<SoundEffectsSourceComponent> _soundEffectsSourceComponentPool;
 
         public void Init(IEcsSystems systems)
         {
@@ -20,6 +20,7 @@ namespace MSuhininTestovoe.B2B
             _transformComponentPool = world.GetPool<TransformComponent>();
             _soundStartPositionComponentPool = world.GetPool<SoundStartPositionComponent>();
             _soundMusicSourceComponentPool = world.GetPool<SoundMusicSourceComponent>();
+            _soundEffectsSourceComponentPool = world.GetPool<SoundEffectsSourceComponent>();
         }
 
         public void Run(IEcsSystems systems)
@@ -42,7 +43,12 @@ namespace MSuhininTestovoe.B2B
                     audioSource.clip = soundMusicSourceComponent.Tracks[soundMusicSourceComponent.PlayedTrack];
                     audioSource.Play();
                 }
-                
+                else if (_soundEffectsSourceComponentPool.Has(entity))
+                {
+                    ref var soundEffectsSourceComponent = ref _soundEffectsSourceComponentPool.Get(entity);
+                    soundEffectsSourceComponent.Source = audioSource;
+                }
+
                 _prefabPool.Del(entity);
             }
         }

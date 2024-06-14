@@ -15,7 +15,7 @@ namespace MSuhininTestovoe.B2B
         private EcsPool<EnemyHealthComponent> _enemyHealthComponentPool;
         private EcsPool<RayComponent> _rayComponent;
         private int _entity;
-
+        private IEcsSystems sss;
 
         [Preserve]
         [EcsUguiClickEvent(UIConstants.BTN_ATACK, WorldsNamesConstants.EVENTS)]
@@ -57,6 +57,7 @@ namespace MSuhininTestovoe.B2B
             _enemyHealthViewComponentPool = world.GetPool<HealthViewComponent>();
             _enemyHealthComponentPool = world.GetPool<EnemyHealthComponent>();
             _rayComponent = world.GetPool<RayComponent>();
+            sss = systems;
         }
 
 
@@ -64,6 +65,19 @@ namespace MSuhininTestovoe.B2B
         {
             ref EnemyHealthComponent healthValue = ref _enemyHealthComponentPool.Get(_entity);
             healthValue.HealthValue -= 1;
+            AddHitSoundComponent(sss, SoundsEnumType.FIRE);
+        }
+        
+        private void AddHitSoundComponent(IEcsSystems systems, SoundsEnumType type)
+        {
+            var entity = SoundCatchSystem.sounEffectsSourceEntity;
+            var sound = systems.GetWorld().GetPool<IsPlaySoundComponent>();
+            if(sound.Has(entity)) return;
+            
+            ref var isHitSoundComponent = ref systems.GetWorld()
+                .GetPool<IsPlaySoundComponent>()
+                .Add(entity);
+            isHitSoundComponent.SoundType = type;
         }
     }
 }

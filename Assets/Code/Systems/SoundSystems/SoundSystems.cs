@@ -11,6 +11,8 @@ namespace MSuhininTestovoe.B2B
             systems
                 .Add(new SoundSystem())
                 .Add(new SoundInitSystem())
+                .Add(new SoundCatchSystem())
+                .Add(new SoundMusicSwitchSystem())
                 .Add(new SoundBuildSystem());
 
         }

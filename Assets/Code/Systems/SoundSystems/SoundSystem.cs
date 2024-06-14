@@ -10,6 +10,7 @@ namespace MSuhininTestovoe.B2B
         public void Init(IEcsSystems systems)
         {
             AddSoundSourceEntity(systems, "Music", AssetsNamesConstants.MUSIC_LOAD_DATA);
+            AddSoundSourceEntity(systems, "Effects", AssetsNamesConstants.SOUNDEFFECTS_LOAD_DATA);
         }
 
         public void AddSoundSourceEntity(IEcsSystems systems, string sourceType, string assetNameConstatn)
