@@ -47,7 +47,7 @@ namespace MSuhininTestovoe.B2B
                     ref AIDestanationComponent target = ref _aiDestanationComponenPool.Get(entity);
                     ref TransformComponent player = ref _playerTransformPool.Get(playerEntity);
                     target.AIDestinationSetter.target = player.Value;
-                    return;
+                 
                 }
             }
         }

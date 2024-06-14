@@ -17,8 +17,8 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  CountForInstantiate: 1
-  Lives: 3
+  CountForInstantiate: 2
+  Lives: 5
   StartPositions:
   - {x: 10, y: 1, z: 10}
   - {x: 10, y: 1, z: 50}
@@ -30,10 +30,6 @@ MonoBehaviour:
   - {x: 0, y: 180, z: 0}
   EndReachedDistance: 0.5
   DropPrefabs:
-  - m_AssetGUID: 6c729b07d27f1412091aab02518c6124
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
   - m_AssetGUID: 3f39a11e3ccc94cbb9fc375c01a72f07
     m_SubObjectName: 
     m_SubObjectType: 
