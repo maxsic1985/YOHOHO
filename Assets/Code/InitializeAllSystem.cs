@@ -19,6 +19,7 @@ namespace MSuhininTestovoe.B2B
             new EnemySystems(systems);
             new DropSystems(systems);
             new MenuSystems(systems);
+            new SoundSystems(systems);
             new DeathSystems(systems);
           
             

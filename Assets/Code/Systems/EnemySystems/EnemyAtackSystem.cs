@@ -12,7 +12,7 @@ namespace MSuhininTestovoe.B2B
         private List<IDisposable> _disposables = new List<IDisposable>();
         private EcsFilter filterTrigger, filterPlayer;
         private EcsWorld _world;
-        private bool _reachedToPlayer = false;
+        private bool _reachedToPlayer ;
         private EcsPool<AIPathComponent> _isReachedComponentPool;
         private EcsPool<HealthViewComponent> _playerHealthViewComponentPool;
         private EcsPool<AIDestanationComponent> _aiDestanationComponenPool;
@@ -43,7 +43,7 @@ namespace MSuhininTestovoe.B2B
             _aiDestanationComponenPool = _world.GetPool<AIDestanationComponent>();
             _playerTransformPool = _world.GetPool<TransformComponent>();
 
-            Observable.Timer(TimeSpan.FromMilliseconds(3000)).Where(_ => true)
+            Observable.Interval(TimeSpan.FromMilliseconds(3000)).Where(_ => _reachedToPlayer)
                 .Subscribe(x => { Attack(); })
                 .AddTo(_disposables);
         }
@@ -64,7 +64,6 @@ namespace MSuhininTestovoe.B2B
                     var currentHealh = _sharedData.GetPlayerCharacteristic.GetLives.GetCurrrentLives;
                     healthView.Value.size = new Vector2(currentHealh, 1);
 
-
                     if (_sharedData.GetPlayerCharacteristic.GetLives.GetCurrrentLives == 0)
                     {
                         _reachedToPlayer = false;
@@ -83,8 +82,7 @@ namespace MSuhininTestovoe.B2B
         {
             _sharedData.GetPlayerCharacteristic.GetLives.UpdateLives(-1);
         }
-
-
+        
         public void Dispose()
         {
             _disposables.Clear();
