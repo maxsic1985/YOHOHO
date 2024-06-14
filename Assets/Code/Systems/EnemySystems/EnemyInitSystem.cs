@@ -96,6 +96,7 @@ namespace MSuhininTestovoe.B2B
                 spawn.SpawnLenght = dataInit.CountForInstantiate;
                 var enemy = pooled.gameObject;
                 transformComponent.Value = enemy.GetComponent<TransformView>().Transform;
+                enemyHealth.InitHealthValue = dataInit.Lives;
                 enemyHealth.HealthValue = dataInit.Lives;
                 healthView.Value = enemy.GetComponent<HealthView>().Value;
                 healthView.Value.size = new Vector2(enemyHealth.HealthValue, 1);

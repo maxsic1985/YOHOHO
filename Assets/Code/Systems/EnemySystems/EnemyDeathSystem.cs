@@ -45,7 +45,7 @@ namespace MSuhininTestovoe.B2B
                 {
                     ref IsDropInstantiateFlag drop = ref _isDropComponentPool.Add(transform.Value.gameObject.GetComponent<EnemyActor>().Entity);
                     _poolService.Return(transform.Value.gameObject);
-                    health.HealthValue = 3;
+                    health.HealthValue = health.InitHealthValue;
                     _deathEnemyCnt += 1;
                     _enemyCntlabel.text = _deathEnemyCnt.ToString();
                 }
